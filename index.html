@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohan R - Developer Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* CSS VARIABLES */
+        :root {
+            /* Colors */
+            --bg-white: #0a0a0f;
+            --bg-offwhite: #12121a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent-color: #ff2a5f;
+            --card-bg: #1a1a24;
+            --accent-hover: #ff4d79;
+            --grad-accent: linear-gradient(135deg, #ff2a5f, #00e1ff);
+            --grad-text: linear-gradient(to right, #00e1ff, #ff2a5f);
+            
+            /* Typography */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            
+            /* Shadows for Antigravity effect */
+            --shadow-subtle: 0 4px 6px rgba(0,0,0,0.04), 0 10px 15px rgba(0,0,0,0.02);
+            --shadow-floating: 0 10px 20px rgba(0,0,0,0.06), 0 20px 40px rgba(0,0,0,0.08);
+            --shadow-lifted: 0 15px 30px rgba(0,0,0,0.08), 0 30px 60px rgba(0,0,0,0.12);
+            
+            /* Transitions */
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.2s ease-in-out;
+            --transition-bounce: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-secondary);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5, h6, .logo {
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* MICRO-INTERACTIONS & ACCESSIBILITY */
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 4px;
+        }
+
+        /* LAYOUT & UTILS */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        section {
+            padding: 100px 0;
+        }
+        section:nth-child(even) {
+            background-color: var(--bg-offwhite);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--grad-accent);
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            border: none;
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background: var(--grad-accent);
+            color: white;
+            box-shadow: var(--shadow-subtle);
+        }
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lifted);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--text-primary);
+        }
+        .btn-outline:hover {
+            background-color: var(--text-primary);
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        /* ANTIGRAVITY ANIMATIONS & CLASSES */
+        @keyframes drift {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes antigravityReveal {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        .reveal-item {
+            opacity: 0;
+        }
+        .reveal-item.visible {
+            animation: antigravityReveal 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        }
+        .floating-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-subtle);
+            transition: var(--transition-smooth);
+            will-change: transform, box-shadow;
+        }
+        .floating-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lifted);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition-fast);
+        }
+        .navbar.scrolled {
+            box-shadow: var(--shadow-subtle);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-secondary);
+            position: relative;
+            transition: var(--transition-fast);
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent-color);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition-smooth);
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 70px;
+        }
+        .hero-content {
+            flex: 1;
+        }
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+        .hero-bio {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .avatar-card {
+            width: 300px;
+            height: 300px;
+            background-color: var(--bg-offwhite);
+            border-radius: 20px;
+            box-shadow: var(--shadow-floating);
+            animation: drift 6s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .avatar-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--grad-accent);
+            opacity: 0.15;
+        }
+        #avatar-initials {
+            font-family: var(--font-heading);
+            font-size: 6rem;
+            color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+        /* SKILLS SECTION */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        .skill-icon {
+            color: var(--accent-color);
+            width: 48px;
+            height: 48px;
+            background: var(--bg-offwhite);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-bar-container {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-offwhite);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .skill-bar {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* PROJECTS SECTION */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .project-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .project-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.8rem;
+        }
+        .project-desc {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .tech-badge {
+            background: var(--bg-offwhite);
+            color: var(--text-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            border-top: 1px solid var(--bg-offwhite);
+            padding-top: 1rem;
+        }
+        .project-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+        }
+        .project-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* EXPERIENCE SECTION */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: rgba(79, 70, 229, 0.2);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 3rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 11px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: 4px solid var(--bg-white);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        .timeline-date {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: var(--bg-offwhite);
+            color: var(--accent-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+        .timeline-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        .timeline-company {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        .timeline-desc {
+            font-size: 0.95rem;
+        }
+        .timeline-desc ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .timeline-desc li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* CONTACT SECTION */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        .contact-info p {
+            margin-bottom: 2rem;
+        }
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+        .social-link:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-subtle);
+            color: var(--accent-color);
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .form-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition-fast);
+            background: var(--bg-offwhite);
+        }
+        .form-control:focus {
+            border-color: var(--accent-color);
+            background: var(--card-bg);
+            box-shadow: 0 0 0 4px rgba(255, 42, 95, 0.1);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text-primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        footer p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* ADMIN PANEL OVERLAY */
+        .admin-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            overflow-y: auto;
+            color: #E2E8F0;
+        }
+        .admin-overlay.active {
+            display: block;
+        }
+        .admin-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #1E1E2F;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+        .admin-header h2 {
+            color: #FFFFFF;
+            font-family: var(--font-body);
+        }
+        .admin-close {
+            background: none; border: none; color: #94A3B8; cursor: pointer;
+            transition: color 0.2s;
+        }
+        .admin-close:hover { color: #FFFFFF; }
+        
+        .admin-section {
+            margin-bottom: 2rem;
+            background: #27273A;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+        .admin-section h3 {
+            margin-bottom: 1rem;
+            color: #818CF8;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+        }
+        .admin-form-group {
+            margin-bottom: 1rem;
+        }
+        .admin-form-group label {
+            display: block; margin-bottom: 0.3rem; font-size: 0.85rem; color: #CBD5E1;
+        }
+        .admin-form-group input, .admin-form-group textarea {
+            width: 100%; padding: 0.8rem; border-radius: 6px;
+            background: #0F0F1A; border: 1px solid #334155; color: white;
+            font-family: inherit; font-size: 0.95rem;
+        }
+        .admin-form-group input:focus, .admin-form-group textarea:focus {
+            outline: none; border-color: #818CF8;
+        }
+        .admin-actions {
+            display: flex; gap: 1rem; justify-content: flex-end;
+            margin-top: 2rem;
+        }
+        .admin-btn {
+            padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer;
+            font-weight: 500; font-family: inherit; border: none;
+            transition: all 0.2s;
+        }
+        .admin-btn-save {
+            background: #4F46E5; color: white;
+        }
+        .admin-btn-save:hover { background: #4338CA; }
+        .admin-btn-export {
+            background: transparent; color: #818CF8; border: 1px solid #818CF8;
+        }
+        .admin-btn-export:hover { background: rgba(129, 140, 248, 0.1); }
+        
+        .array-item-edit {
+            border-left: 2px solid #4F46E5;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-white);
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+                box-shadow: var(--shadow-floating);
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease-in-out;
+            }
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            .nav-link {
+                display: block;
+                padding: 1.5rem;
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--bg-offwhite);
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                padding: 100px 0;
+                gap: 3rem;
+            }
+            .hero-actions {
+                justify-content: center;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo" id="ui-brand">MR.</a>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+                <i data-lucide="menu"></i>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about" class="nav-link active">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="about" class="hero">
+        <div class="container" style="display: inherit; align-items: inherit; justify-content: space-between; flex-wrap: wrap;">
+            <div class="hero-content reveal-item">
+                <h2 class="hero-subtitle" id="ui-hero-role">Developer</h2>
+                <h1 class="hero-title" id="ui-hero-name">Name</h1>
+                <p class="hero-bio" id="ui-hero-bio">Bio loading...</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                </div>
+            </div>
+            <div class="hero-visual reveal-item" style="animation-delay: 0.2s;">
+                <div class="avatar-card">
+                    <span id="avatar-initials">MR</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title reveal-item">Skills & Expertise</h2>
+            <div class="skills-grid" id="ui-skills-container">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title reveal-item">Featured Projects</h2>
+            <div class="projects-grid" id="ui-projects-container">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title reveal-item">Experience</h2>
+            <div class="timeline" id="ui-experience-container">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title reveal-item">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info reveal-item">
+                    <h3>Let's build something great.</h3>
+                    <p>I'm currently looking for new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
+                    <div class="social-links" id="ui-social-container">
+                        <!-- Injected via JS -->
+                    </div>
+                </div>
+                <div class="contact-form-container floating-card reveal-item" style="animation-delay: 0.2s;">
+                    <form class="contact-form" id="contact-form" onsubmit="event.preventDefault(); alert('Message sent conceptually!');">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" class="form-control" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" class="form-control" required placeholder="Hello..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> <span id="ui-footer-name">Name</span>. Built with purely HTML, CSS & JS.</p>
+        </div>
+    </footer>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-overlay" id="admin-panel">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h2>Admin Panel (Ctrl+Shift+A)</h2>
+                <button class="admin-close" id="close-admin"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div class="admin-content" id="admin-content-area">
+                <!-- dynamic forms -->
+            </div>
+
+            <div class="admin-actions">
+                <button class="admin-btn admin-btn-export" id="btn-export">Export JSON</button>
+                <button class="admin-btn admin-btn-save" id="btn-save">Save to LocalStorage</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // 1. DATA OBJECT INITIALIZATION
+        const defaultData = {
+            profile: {
+                name: "MOHAN R",
+                role: "FRONTEND DEVELOPER (REACT)",
+                tagline: "Building clean, fast web experiences",
+                bio: "Frontend Developer specializing in React. Passionate about building responsive, user-friendly interfaces.",
+                location: "Coimbatore, TamilNadu"
+            },
+            skills: [
+                { name: "Python", prof: 85, icon: "file-terminal" },
+                { name: "JavaScript", prof: 85, icon: "file-json-2" },
+                { name: "SQL", prof: 80, icon: "database" },
+                { name: "HTML/CSS", prof: 90, icon: "file-code" },
+                { name: "React", prof: 85, icon: "atom" },
+                { name: "Git & GitHub", prof: 85, icon: "git-branch" },
+                { name: "Excel", prof: 80, icon: "table" }
+            ],
+            projects: [
+                {
+                    title: "STUDENT MANAGEMENT (CRUD)",
+                    desc: "Management System developed using Python and SQL with CRUD operations. Implemented features to add, view, update, and delete student records.",
+                    tech: ["Python", "SQL"],
+                    github: "https://github.com/mohanramasamy2005-eng",
+                    live: ""
+                },
+                {
+                    title: "E-Commerce Website",
+                    desc: "Built a responsive e-commerce web application with product listing, cart functionality, and dynamic UI updates.",
+                    tech: ["HTML", "CSS", "JavaScript"],
+                    github: "https://github.com/mohanramasamy2005-eng",
+                    live: ""
+                },
+                {
+                    title: "SALES DASHBOARD",
+                    desc: "Developed a Sales Dashboard for data analysis and reporting. Used pivot tables and charts to track sales trends.",
+                    tech: ["Excel"],
+                    github: "",
+                    live: ""
+                }
+            ],
+            experience: [
+                {
+                    role: "Front End Web Development Intern",
+                    company: "Edunet Foundation (AICTE)",
+                    duration: "6 Weeks",
+                    bullets: [
+                        "Completed an internship on Front End Web Development in collaboration with AICTE."
+                    ]
+                },
+                {
+                    role: "Full Stack Development Intern",
+                    company: "NoviTech R&D Private Limited",
+                    duration: "1 Month",
+                    bullets: [
+                        "Completed a one month internship on Full Stack Development."
+                    ]
+                },
+                {
+                    role: "Full Stack Development Intern",
+                    company: "EDU TANTR",
+                    duration: "3 Months",
+                    bullets: [
+                        "Completed a three month internship on Full Stack Development."
+                    ]
+                }
+            ],
+            contact: {
+                email: "mohanramasamy2005@gmail.com",
+                github: "https://github.com/mohanramasamy2005-eng",
+                linkedin: "https://linkedin.com/in/mohanramasamyy",
+                twitter: ""
+            }
+        };
+
+        // Load data from LocalStorage or use default
+        let portfolioData = JSON.parse(localStorage.getItem('portfolioData_MohanR')) || JSON.parse(JSON.stringify(defaultData));
+
+        // 2. RENDER FUNCTIONS
+        function renderUI() {
+            // About
+            document.getElementById('ui-brand').innerText = portfolioData.profile.name.split(' ').map(n=>n[0]).join('');
+            document.getElementById('avatar-initials').innerText = portfolioData.profile.name.split(' ').map(n=>n[0]).join('');
+            document.getElementById('ui-hero-name').innerText = portfolioData.profile.name;
+            document.getElementById('ui-hero-role').innerText = portfolioData.profile.role;
+            document.getElementById('ui-hero-bio').innerText = portfolioData.profile.bio;
+            document.getElementById('ui-footer-name').innerText = portfolioData.profile.name;
+            document.getElementById('current-year').innerText = new Date().getFullYear();
+
+            // Skills
+            const skillsHtml = portfolioData.skills.map((s, i) => `
+                <div class="skill-card floating-card reveal-item" style="animation-delay: ${Math.min(i*0.1, 0.5)}s">
+                    <div class="skill-icon"><i data-lucide="${s.icon || 'star'}"></i></div>
+                    <div style="width: 100%;">
+                        <div style="display:flex; justify-content:space-between; font-weight:500; font-size:0.9rem;">
+                            <span>${s.name}</span>
+                            <span>${s.prof}%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar delay-bar" data-width="${s.prof}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('ui-skills-container').innerHTML = skillsHtml;
+
+            // Projects
+            const projectsHtml = portfolioData.projects.map((p, i) => `
+                <div class="project-card floating-card reveal-item" style="animation-delay: ${Math.min(i*0.1, 0.5)}s">
+                    <div class="project-content">
+                        <h3 class="project-title">${p.title}</h3>
+                        <p class="project-desc">${p.desc}</p>
+                        <div class="project-tech">
+                            ${p.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="project-links">
+                        ${p.github ? `<a href="${p.github}" target="_blank"><i data-lucide="github" style="width:18px;height:18px;"></i> Code</a>` : ''}
+                        ${p.live ? `<a href="${p.live}" target="_blank"><i data-lucide="external-link" style="width:18px;height:18px;"></i> Live</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('ui-projects-container').innerHTML = projectsHtml;
+
+            // Experience
+            const expHtml = portfolioData.experience.map((e, i) => `
+                <div class="timeline-item reveal-item" style="animation-delay: ${Math.min(i*0.1, 0.5)}s">
+                    <div class="timeline-dot"></div>
+                    <div class="floating-card">
+                        <div class="timeline-date">${e.duration}</div>
+                        <h3 class="timeline-title">${e.role}</h3>
+                        <div class="timeline-company">${e.company}</div>
+                        <div class="timeline-desc">
+                            <ul>
+                                ${e.bullets.map(b => `<li>${b}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('ui-experience-container').innerHTML = expHtml;
+
+            // Contact
+            const contactHtml = `
+                <a href="mailto:${portfolioData.contact.email}" class="social-link" target="_blank">
+                    <div class="social-icon"><i data-lucide="mail"></i></div> ${portfolioData.contact.email}
+                </a>
+                ${portfolioData.contact.github ? `
+                <a href="${portfolioData.contact.github}" class="social-link" target="_blank">
+                    <div class="social-icon"><i data-lucide="github"></i></div> GitHub
+                </a>` : ''}
+                ${portfolioData.contact.linkedin ? `
+                <a href="${portfolioData.contact.linkedin}" class="social-link" target="_blank">
+                    <div class="social-icon"><i data-lucide="linkedin"></i></div> LinkedIn
+                </a>` : ''}
+                 ${portfolioData.contact.twitter ? `
+                <a href="${portfolioData.contact.twitter}" class="social-link" target="_blank">
+                    <div class="social-icon"><i data-lucide="twitter"></i></div> Twitter
+                </a>` : ''}
+            `;
+            document.getElementById('ui-social-container').innerHTML = contactHtml;
+
+            // Re-initialize icons and observers
+            lucide.createIcons();
+            initObserver();
+        }
+
+        // 3. ANIMATIONS & LISTENERS
+        function initObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Animate skill bars if inside
+                        const bars = entry.target.querySelectorAll('.delay-bar');
+                        bars.forEach(b => {
+                            b.style.width = b.getAttribute('data-width');
+                        });
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
+        }
+
+        // Navbar Scroll Effect & Active Links
+        const navbar = document.getElementById('navbar');
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            if(window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if(scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Mobile Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const navLinksContainer = document.getElementById('nav-links');
+        menuToggle.addEventListener('click', () => {
+            navLinksContainer.classList.toggle('active');
+        });
+        navLinksContainer.addEventListener('click', () => {
+            if(window.innerWidth <= 768) navLinksContainer.classList.remove('active');
+        });
+
+        // 4. ADMIN PANEL LOGIC
+        const adminOverlay = document.getElementById('admin-panel');
+        document.addEventListener('keydown', (e) => {
+            if(e.ctrlKey && e.shiftKey && e.code === 'KeyA') {
+                e.preventDefault();
+                const pwd = prompt("Enter Admin Password:");
+                if(pwd === "admin123") {
+                    openAdmin();
+                } else if(pwd !== null) {
+                    alert("Incorrect Access");
+                }
+            }
+        });
+
+        document.getElementById('close-admin').addEventListener('click', () => {
+            adminOverlay.classList.remove('active');
+        });
+
+        function buildAdminUI() {
+            const area = document.getElementById('admin-content-area');
+            area.innerHTML = `
+                <div class="admin-section">
+                    <h3>About Me</h3>
+                    <div class="admin-form-group"><label>Name</label><input type="text" id="adm-name" value="${portfolioData.profile.name}"></div>
+                    <div class="admin-form-group"><label>Role</label><input type="text" id="adm-role" value="${portfolioData.profile.role}"></div>
+                    <div class="admin-form-group"><label>Bio</label><textarea id="adm-bio" rows="4">${portfolioData.profile.bio}</textarea></div>
+                </div>
+                <div class="admin-section">
+                    <h3>Contact Information</h3>
+                    <div class="admin-form-group"><label>Email</label><input type="text" id="adm-email" value="${portfolioData.contact.email || ''}"></div>
+                    <div class="admin-form-group"><label>GitHub URL</label><input type="text" id="adm-github" value="${portfolioData.contact.github || ''}"></div>
+                    <div class="admin-form-group"><label>LinkedIn URL</label><input type="text" id="adm-linkedin" value="${portfolioData.contact.linkedin || ''}"></div>
+                </div>
+            `;
+            // Advanced Raw JSON Editor to handle dynamic arrays
+            area.innerHTML += `
+                <div class="admin-section">
+                    <h3>Advanced Data JSON</h3>
+                    <p style="font-size:0.8rem; color:#94A3B8; margin-bottom:1rem;">Edit the raw data object here for Skills, Projects, and Experience arrays natively.</p>
+                    <div class="admin-form-group">
+                        <textarea id="adm-raw-json" rows="15" style="font-family:monospace;">${JSON.stringify(portfolioData, null, 2)}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openAdmin() {
+            buildAdminUI();
+            adminOverlay.classList.add('active');
+        }
+
+        document.getElementById('btn-save').addEventListener('click', () => {
+            try {
+                // Try to parse raw first
+                const rawData = JSON.parse(document.getElementById('adm-raw-json').value);
+                
+                // Override simple fields from dedicated inputs if user typed there
+                rawData.profile.name = document.getElementById('adm-name').value;
+                rawData.profile.role = document.getElementById('adm-role').value;
+                rawData.profile.bio = document.getElementById('adm-bio').value;
+                rawData.contact.email = document.getElementById('adm-email').value;
+                rawData.contact.github = document.getElementById('adm-github').value;
+                rawData.contact.linkedin = document.getElementById('adm-linkedin').value;
+
+                portfolioData = rawData;
+                localStorage.setItem('portfolioData', JSON.stringify(portfolioData));
+                alert("Saved successfully! Page will update.");
+                renderUI();
+                adminOverlay.classList.remove('active');
+            } catch (e) {
+                alert("Error saving data. Please check JSON formatting in Advanced Editor. Error: " + e.message);
+            }
+        });
+
+        document.getElementById('btn-export').addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(portfolioData, null, 2));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href",     dataStr);
+            downloadAnchorNode.setAttribute("download", "portfolio-data.json");
+            document.body.appendChild(downloadAnchorNode); // required for firefox
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+
+        // 5. INITIAL MOUNT
+        document.addEventListener('DOMContentLoaded', () => {
+            renderUI();
+        });
+
+    </script>
+</body>
+</html>
